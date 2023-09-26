@@ -5,7 +5,7 @@ import java.util.Random;
 public class EX2_RECURSIVIDADE {
     public static void ExibirArray(int v[],int inicio, int maior){
         int tamanhovetor = v.length;
-        if (inicio >= tamanhovetor) return;
+        if (inicio >= tamanhovetor);
         else{
             if(v[inicio] > maior) {
                 maior = v[inicio];
