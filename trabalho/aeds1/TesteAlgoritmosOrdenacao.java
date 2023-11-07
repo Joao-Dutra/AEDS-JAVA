@@ -14,22 +14,23 @@ public class TesteAlgoritmosOrdenacao {
 
             System.out.println("Testando com tamanho do vetor: " + tamanho);
 
+            testarOrdenacao("BubbleSort (Aleatório)", arrAleatorio.clone());
             testarOrdenacao("SelectionSort (Aleatório)", arrAleatorio.clone());
             testarOrdenacao("InsertionSort (Aleatório)", arrAleatorio.clone());
             testarOrdenacao("MergeSort (Aleatório)", arrAleatorio.clone());
             testarOrdenacao("QuickSort (Aleatório)", arrAleatorio.clone());
 
+            testarOrdenacao("BubbleSort (Crescente)", arrCrescente.clone());
             testarOrdenacao("SelectionSort (Crescente)", arrCrescente.clone());
             testarOrdenacao("InsertionSort (Crescente)", arrCrescente.clone());
             testarOrdenacao("MergeSort (Crescente)", arrCrescente.clone());
+            testarOrdenacao("QuickSort (Crescente)", arrCrescente.clone());
 
-            //QuickSort Crescente nao rodou - perguntar Luciana
-
+            testarOrdenacao("BubbleSort (Decrescente)", arrDecrescente.clone());
             testarOrdenacao("SelectionSort (Decrescente)", arrDecrescente.clone());
             testarOrdenacao("InsertionSort (Decrescente)", arrDecrescente.clone());
             testarOrdenacao("MergeSort (Decrescente)", arrDecrescente.clone());
-
-            //QuickSort Decrescente nao rodou - perguntar Luciana
+            testarOrdenacao("QuickSort (Decrescente)", arrDecrescente.clone());
 
             System.out.println();
         }
@@ -38,6 +39,9 @@ public class TesteAlgoritmosOrdenacao {
     public static void testarOrdenacao(String algoritmo, int[] arr) {
         long tempoInicial = System.nanoTime();
         switch (algoritmo) {
+            case "BubbleSort (Aleatório)":
+                bubbleSort(arr, arr.length);
+                break;
             case "SelectionSort (Aleatório)":
                 selectionSort(arr, arr.length);
                 break;
@@ -50,6 +54,9 @@ public class TesteAlgoritmosOrdenacao {
             case "QuickSort (Aleatório)":
                 quickSort(arr, 0, arr.length - 1);
                 break;
+            case "BubbleSort (Crescente)":
+                bubbleSort(arr, arr.length);
+                break;
             case "SelectionSort (Crescente)":
                 selectionSort(arr, arr.length);
                 break;
@@ -61,6 +68,9 @@ public class TesteAlgoritmosOrdenacao {
                 break;
             case "QuickSort (Crescente)":
                 quickSort(arr, 0, arr.length - 1);
+                break;
+            case "BubbleSort (Decrescente)":
+                bubbleSort(arr, arr.length);
                 break;
             case "SelectionSort (Decrescente)":
                 selectionSort(arr, arr.length);
@@ -183,10 +193,23 @@ public class TesteAlgoritmosOrdenacao {
     }
 
     public static void quickSort(int arr[], int low, int high) {
-        if (low < high) {
-            int pivot = partition(arr, low, high);
-            quickSort(arr, low, pivot - 1);
-            quickSort(arr, pivot + 1, high);
+        while (low < high) {
+            // Escolha o elemento do meio como o pivot
+            int middle = low + (high - low) / 2;
+            int pivot = arr[middle];
+
+            // Coloque o pivot no final
+            swap(arr, middle, high);
+
+            int pivotIndex = partition(arr, low, high);
+
+            if (pivotIndex - low < high - pivotIndex) {
+                quickSort(arr, low, pivotIndex - 1);
+                low = pivotIndex + 1;
+            } else {
+                quickSort(arr, pivotIndex + 1, high);
+                high = pivotIndex - 1;
+            }
         }
     }
 
@@ -205,5 +228,23 @@ public class TesteAlgoritmosOrdenacao {
         arr[i + 1] = arr[high];
         arr[high] = temp;
         return i + 1;
+    }
+
+    public static void bubbleSort(int arr[], int size) {
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = 0; j < size - i - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    public static void swap(int arr[], int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
     }
 }
